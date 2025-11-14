@@ -4,308 +4,730 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konsultasi Final Projek | Politeknik IDN</title>
+    <title>Homspire | Home Decor Inspiration</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
 </head>
 
-<body x-data="{ mobileMenuOpen: false }">
+<body class="bg-base-100 text-base-content font-sans antialiased transition-colors duration-300"
+    x-data="{ isNavOpen: false, isModalOpen: false }">
 
-    <div class="overflow-x-hidden">
+    <!-- ===== HEADER & NAVIGATION ===== -->
+    <header
+        class="sticky top-0 z-30 w-full bg-base-100/80 dark:bg-dark-base-100/80 backdrop-blur-xs shadow-xs transition-all">
+        <div class="container-auto">
 
-        <nav class="relative z-10 p-6 md:px-12 mx-auto max-w-7xl" x-data="{ mobileMenuOpen: false }">
-            <div class="flex justify-between items-center">
-
-                <div class="font-bold text-lg uppercase tracking-wider text-accent">
-                    IDN Consult
-                </div>
-
-                <div class="hidden md:flex items-center space-x-6 uppercase text-sm tracking-widest">
-                    @if (Route::has('login'))
-                    @auth
-                    <a href="{{ url('/dashboard') }}"
-                        class="bg-primary text-white text-sm font-semibold py-2 px-5 uppercase tracking-wider hover:bg-accent transition-colors duration-300">
-                        Dashboard
-                    </a>
-                    @else
-                    <a href="{{ route('login') }}" class="hover:text-primary transition-colors duration-300">
-                        Log in
-                    </a>
-
-                    @if (Route::has('register'))
-                    <a href="{{ route('register') }}"
-                        class="bg-primary text-white text-sm font-semibold py-2 px-5 uppercase tracking-wider hover:bg-accent transition-colors duration-300">
-                        Register
-                    </a>
-                    @endif
-                    @endauth
-                    @endif
-                </div>
-
-                <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden z-20 focus:outline-none">
-                    <svg x-show="!mobileMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
-                    </svg>
-                    <svg x-show="mobileMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-
-            <div x-show="mobileMenuOpen" @click.outside="mobileMenuOpen = false"
-                x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0 transform -translate-y-4"
-                x-transition:enter-end="opacity-100 transform translate-y-0"
-                x-transition:leave="transition ease-in duration-200"
-                x-transition:leave-start="opacity-100 transform translate-y-0"
-                x-transition:leave-end="opacity-0 transform -translate-y-4"
-                class="absolute top-16 left-0 right-0 md:hidden bg-white shadow-lg p-8 space-y-6 uppercase text-center">
-
-                @if (Route::has('login'))
-                @auth
-                <a href="{{ url('/dashboard') }}" class="block hover:text-primary"
-                    @click="mobileMenuOpen = false">Dashboard</a>
-                @else
-                <a href="{{ route('login') }}" class="block hover:text-primary" @click="mobileMenuOpen = false">Log
-                    in</a>
-                @if (Route::has('register'))
-                <a href="{{ route('register') }}" class="block hover:text-primary"
-                    @click="mobileMenuOpen = false">Register</a>
-                @endif
-                @endauth
-                @endif
-            </div>
-        </nav>
-
-        <header class="grid md:grid-cols-5 min-h-[calc(100vh-80px)]">
-            <div
-                class="md:col-span-2 bg-primary text-white p-12 md:p-20 flex flex-col justify-center order-2 md:order-1">
-                <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-8">
-                    Selamat Datang di Konsultasi Final Projek Mahasiswa Politeknik IDN
-                </h1>
-
-                <a href="https://www.numenide.id" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block bg-white text-primary font-semibold py-3 px-8 uppercase tracking-wider border-2 border-white
-                          hover:bg-transparent hover:text-white transition-all duration-300 ease-in-out self-start">
-                    More About Consultor
+            <!-- Main Navigation -->
+            <nav class="flex items-center justify-between py-4">
+                <!-- Logo -->
+                <a href="{{ route('home') }}" wire:navigate
+                    class="text-3xl font-serif font-bold text-secondary dark:text-dark-secondary">
+                    Homespire
                 </a>
-            </div>
 
-            <div class="md:col-span-3 p-12 md:p-20 flex items-center justify-center order-1 md:order-2">
-                <img src="https://picsum.photos/600/400?grayscale&blur=1" alt="Konsultasi Final Projek" class="w-full h-auto max-h-[60vh] object-cover shadow-2xl
-                            hover:scale-105 transition-transform duration-300 ease-in-out">
-            </div>
-        </header>
+                <!-- Menu Desktop -->
+                <ul class="hidden lg:flex items-center space-x-8 font-medium">
+                    <li><a href="{{ route('home') }}" wire:navigate
+                            class="hover:text-primary dark:hover:text-dark-primary">Home</a></li>
+                    <li><a href="#" class="hover:text-primary dark:hover:text-dark-primary">Gallery</a></li>
+                    <li><a href="#" class="hover:text-primary dark:hover:text-dark-primary">FAQ</a></li>
+                    <li><a href="#" class="hover:text-primary dark:hover:text-dark-primary">Testimony</a></li>
+                    <li><a href="#" class="hover:text-primary dark:hover:text-dark-primary">Contact</a></li>
+                </ul>
 
-        <section class="px-6 md:px-12 py-16 md:py-24 max-w-7xl mx-auto">
-            <div class="grid md:grid-cols-2 gap-16 items-center">
-                <div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-accent mb-4">
-                        Scaffold Projek TALL Stack
+                <!-- Ikon Kanan & Tombol Mobile -->
+                <div class="flex items-center space-x-3">
+                    <a href="{{ route('login') }}" wire:navigate class="btn btn-primary hidden lg:inline-flex">Sign In</a>
+
+                    <!-- Tombol Hamburger (Mobile) -->
+                    <button @click="isNavOpen = !isNavOpen" class="btn btn-ghost btn-circle lg:hidden"
+                        aria-label="Toggle Menu">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Menu Mobile (Dropdown) -->
+            <div x-show="isNavOpen" x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 -translate-y-4"
+                x-transition:enter-end="opacity-100 translate-y-0"
+                x-transition:leave="transition ease-in duration-150"
+                x-transition:leave-start="opacity-100 translate-y-0"
+                x-transition:leave-end="opacity-0 -translate-y-4" @click.away="isNavOpen = false"
+                class="absolute top-full left-0 w-full bg-base-100 dark:bg-dark-base-100 shadow-lg lg:hidden"
+                x-cloak>
+                <ul class="flex flex-col p-4 space-y-2">
+                    <li><a href="{{ route('home') }}" wire:navigate
+                            class="block px-4 py-2 rounded-md hover:bg-base-200 dark:hover:bg-dark-base-200">Home</a>
+                    </li>
+                    <li><a href="#"
+                            class="block px-4 py-2 rounded-md hover:bg-base-200 dark:hover:bg-dark-base-200">Gallery</a>
+                    </li>
+                    <li><a href="#"
+                            class="block px-4 py-2 rounded-md hover:bg-base-200 dark:hover:bg-dark-base-200">FAQ</a>
+                    </li>
+                    <li><a href="#"
+                            class="block px-4 py-2 rounded-md hover:bg-base-200 dark:hover:bg-dark-base-200">Testimony</a>
+                    </li>
+                    <li><a href="#"
+                            class="block px-4 py-2 rounded-md hover:bg-base-200 dark:hover:bg-dark-base-200">Contact</a>
+                    </li>
+                    <li><a href="{{ route('login') }}" wire:navigate @click="isNavOpen = false"
+                            class="btn btn-primary w-full">Sign In</a></li>
+                    <li class="border-t border-base-200 dark:border-dark-base-200 pt-2 space-y-2">
+                        <a href="#"
+                            class="flex items-center space-x-2 px-4 py-2 rounded-md hover:bg-base-200 dark:hover:bg-dark-base-200">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                            </svg>
+                            <span>Search</span>
+                        </a>
+                        <a href="#"
+                            class="flex items-center space-x-2 px-4 py-2 rounded-md hover:bg-base-200 dark:hover:bg-dark-base-200">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                            </svg>
+                            <span>Wishlist</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main>
+
+        <!-- Hero Section -->
+        <section class="relative h-[600px] lg:h-[700px] w-full">
+            <!-- Background Image -->
+            <img src="https://i.pinimg.com/1200x/43/20/9c/43209c85807d735687b6b98f2c0247a8.jpg"
+                alt="Modern living room with comfortable sofa" class="absolute inset-0 w-full h-full object-cover">
+            <!-- Overlay Gelap -->
+            <div class="absolute inset-0 bg-black/30"></div>
+
+            <!-- Konten Hero -->
+            <div class="relative container-auto h-full flex items-center justify-start">
+                <div class="max-w-lg text-left">
+                    <div
+                        class="bg-base-100/80 dark:bg-dark-base-100/80 backdrop-blur-md p-8 md:p-12 rounded-lg shadow-xl">
+                        <h1
+                            class="text-4xl md:text-5xl lg:text-6xl font-sans font-bold text-secondary dark:text-dark-secondary leading-tight">
+                            Temukan Inspirasi Dekorasi Rumah Impian Anda
+                        </h1>
+                        <p class="mt-4 text-lg text-base-content dark:text-dark-base-content">
+                            Jelajahi ribuan ide desain interior dan eksterior untuk setiap ruangan di rumah Anda.
+                        </p>
+                        <a href="#" class="btn btn-primary mt-8">
+                            JELAJAHI SEKARANG
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Home Decor Categories -->
+        <section class="py-16 lg:py-24 bg-base-200 dark:bg-dark-base-200">
+            <div class="container-auto">
+                <h2 class="text-3xl lg:text-4xl font-sans text-center mb-12 text-secondary dark:text-dark-secondary">
+                    Jelajahi Berdasarkan Ruangan
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                    <!-- Kategori 1: Ruang Tamu -->
+                    <a href="#" class="group block">
+                        <div class="card overflow-hidden">
+                            <img src="https://i.pinimg.com/1200x/c1/b9/26/c1b92681cdf83b0a33758757e76a7062.jpg"
+                                alt="Ruang Tamu"
+                                class="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-105">
+                            <div class="card-body text-center">
+                                <h3 class="text-xl font-serif font-medium">Ruang Tamu</h3>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- Kategori 2: Dapur -->
+                    <a href="#" class="group block">
+                        <div class="card overflow-hidden">
+                            <img src="https://i.pinimg.com/736x/83/2a/0a/832a0af28c1b6a1a0b92cdf8de1d1f79.jpg"
+                                alt="Dapur"
+                                class="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-105">
+                            <div class="card-body text-center">
+                                <h3 class="text-xl font-serif font-medium">Dapur</h3>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- Kategori 3: Kamar Tidur -->
+                    <a href="#" class="group block">
+                        <div class="card overflow-hidden">
+                            <img src="https://i.pinimg.com/1200x/e8/ef/20/e8ef200173e9654811b05ca64f5bb7fa.jpg"
+                                alt="Kamar Tidur"
+                                class="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-105">
+                            <div class="card-body text-center">
+                                <h3 class="text-xl font-serif font-medium">Kamar Tidur</h3>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- Kategori 4: Kamar Mandi -->
+                    <a href="#" class="group block">
+                        <div class="card overflow-hidden">
+                            <img src="https://i.pinimg.com/736x/de/5b/8e/de5b8e85341f4c0c8c9cb7b200fc4e4a.jpg"
+                                alt="Kamar Mandi"
+                                class="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-105">
+                            <div class="card-body text-center">
+                                <h3 class="text-xl font-serif font-medium">Kamar Mandi</h3>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="mt-12 flex justify-end">
+                    <a href="#"
+                        class="inline-flex items-center text-lg font-semibold text-secondary dark:text-dark-secondary
+                  hover:text-testimonial-amber-dark transition duration-150">
+                        Selengkapnya ❯❯❯❯
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dining Table Section -->
+        <section class="py-16 lg:py-24 bg-base-100 dark:bg-dark-base-100">
+            <div class="container-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="text-left">
+                    <h2 class="text-3xl lg:text-4xl font-sans mb-6 text-secondary dark:text-dark-secondary">
+                        Jadikan Setiap Inspirasi <br>Favorit Anda Spesial
                     </h2>
-                    <div class="w-20 h-1 bg-primary mb-6"></div>
-                    <p class="text-gray-600 leading-relaxed text-lg">
-                        Ini adalah scaffold projek kalian menggunakan Stack TALL yang sudah disiapkan sebaik mungkin
-                        agar memudahkan
-                        pengembangan final projek ke depan.
+                    <p class="mb-4 text-base-content/80 dark:text-dark-base-content/80">
+                        Simpan foto desain yang Anda sukai ke halaman favorit, dan buat koleksi ide dekorasi versi Anda sendiri.
+                    </p>
+                    <p class="mb-8 text-base-content/80 dark:text-dark-base-content/80">
+
+                    </p>
+                    <a href="#" class="btn btn-outline">
+                        LIHAT FAVORITE
+                    </a>
+                </div>
+                <div>
+                    <img src="https://i.pinimg.com/1200x/d7/fe/e1/d7fee17a3b2d31473b132cd104db37e5.jpg"
+                        alt="Beautifully set dining table" class="w-full h-auto rounded-lg shadow-lg">
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Informasi Inspiratif -->
+        <section class="py-16 lg:py-24 bg-neutral dark:bg-white">
+            <div class="container-auto">
+                <h2
+                    class="text-3xl lg:text-4xl font-serif text-center mb-12 text-neutral-content dark:bg-dark-neutral dark:text-dark-neutral-content">
+                    Artikel & Tips Dekorasi
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+                    <!-- info 1 -->
+                    <div class="card text-center">
+                        <a href="https://medium.com/@mogulinteriors/antique-furniture-vintage-luxury-barn-doors-thanksgiving-home-decor-522078e75af2"
+                            class="block group overflow-hidden">
+                            <img src="https://miro.medium.com/v2/resize:fit:640/format:webp/0*_oMm0ccAlvr7C5BK"
+                                alt="Door"
+                                class="w-full h-72 object-cover transform transition-transform duration-500 group-hover:scale-105">
+                        </a>
+                        <div class="card-body">
+                            <h3 class="text-xl font-sans font-medium"><a
+                                    href="https://medium.com/@mogulinteriors/antique-furniture-vintage-luxury-barn-doors-thanksgiving-home-decor-522078e75af2"
+                                    class="hover:text-primary dark:hover:text-dark-primary">Antique Furniture & Vintage
+                                    Luxury Barn Doors</a></h3>
+                            <p class="text-lg font-medium text-primary dark:text-dark-primary mt-2">Mogul Interiors</p>
+                        </div>
+                    </div>
+                    <!-- info 2 -->
+                    <div class="card text-center">
+                        <a href="https://medium.com/write-a-catalyst/your-story-your-space-a-guide-to-intentional-home-design-d36eac199a07"
+                            class="block group overflow-hidden">
+                            <img src="https://i.pinimg.com/736x/ce/cd/58/cecd5836d3bb4bdc55a07fe134464736.jpg"
+                                alt="Kitchen"
+                                class="w-full h-72 object-cover transform transition-transform duration-500 group-hover:scale-105">
+                        </a>
+                        <div class="card-body">
+                            <h3 class="text-xl font-sans font-medium"><a
+                                    href="https://medium.com/write-a-catalyst/your-story-your-space-a-guide-to-intentional-home-design-d36eac199a07"
+                                    class="hover:text-primary dark:hover:text-dark-primary">Your Space, Your Story: A
+                                    Guide to Home Decor and Kitchen Design</a></h3>
+                            <p class="text-lg font-medium text-primary dark:text-dark-primary mt-2">Edwin M. Maanya</p>
+                        </div>
+                    </div>
+                    <!-- info 3 -->
+                    <div class="card text-center">
+                        <a href="https://medium.com/@alirazakhanbalouch/quirky-home-decorating-ideas-for-a-small-space-585397e17a51"
+                            class="block group overflow-hidden">
+                            <img src="https://i.pinimg.com/736x/c8/9d/2d/c89d2d86ad42fce299b9dcbbbd3dfbdc.jpg"
+                                alt="minimalist"
+                                class="w-full h-72 object-cover transform transition-transform duration-500 group-hover:scale-105">
+                        </a>
+                        <div class="card-body">
+                            <h3 class="text-xl font-sans font-medium"><a
+                                    href="https://medium.com/@alirazakhanbalouch/quirky-home-decorating-ideas-for-a-small-space-585397e17a51"
+                                    class="hover:text-primary dark:hover:text-dark-primary">Quirky Home Decorating Ideas
+                                    for A Small Space</a></h3>
+                            <p class="text-lg font-medium text-primary dark:text-dark-primary mt-2">Ali Raza</p>
+                        </div>
+                    </div>
+                    <!-- info 4 -->
+                    <div class="card text-center">
+                        <a href="https://medium.com/@casi.borg/minimalist-home-decor-simple-spaces-big-impact-e60e0cc48b26"
+                            class="block group overflow-hidden">
+                            <img src="https://i.pinimg.com/1200x/16/a6/c5/16a6c5f129d04f2ff97f92e7ff265bcb.jpg"
+                                alt="minimalist"
+                                class="w-full h-72 object-cover transform transition-transform duration-500 group-hover:scale-105">
+                        </a>
+                        <div class="card-body">
+                            <h3 class="text-xl font-sans font-medium"><a
+                                    href="https://medium.com/@casi.borg/minimalist-home-decor-simple-spaces-big-impact-e60e0cc48b26"
+                                    class="hover:text-primary dark:hover:text-dark-primary">Minimalist Home Decor:
+                                    Simple Spaces, Big Impact</a></h3>
+                            <p class="text-lg font-medium text-primary dark:text-dark-primary mt-2">Casi Borg</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-12 flex justify-end">
+                    <a href="#"
+                        class="inline-flex items-center text-lg font-semibold text-neutral-content dark:bg-dark-neutral dark:text-dark-neutral-content
+                  hover:text-testimonial-amber-dark transition duration-150">
+                        Selengkapnya ❯❯❯❯
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="bg-gray-50 py-16 sm:py-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+                        Apa Kata Pengguna Kami
+                    </h2>
+                    <p class="mt-4 text-xl text-gray-600 mb-5">
+                        Inspirasi desain terbaik dari yang telah menggunakan layanan Homify.
                     </p>
                 </div>
 
-                <div>
-                    <img src="https://picsum.photos/500/350" alt="TALL Stack Scaffold" class="w-full h-auto object-cover shadow-lg
-                                hover:scale-105 transition-transform duration-300 ease-in-out">
+                <div class="flex space-x-8 overflow-x-auto scrollbar-hide pb-4 mb-5 mt-12">
+
+                    <div
+                        class="min-w-[320px] flex-shrink-0 rounded-xl bg-gradient-to-br  bg-neutral text-neutral-content dark:bg-dark-neutral dark:text-dark-neutral-content p-8 shadow-lg transition duration-300 hover:shadow-xl">
+                        <div class="flex flex-col items-center text-center">
+
+                            <div class="mb-6 flex flex-col items-center">
+                                <img class="h-16 w-16 rounded-full object-cover ring-2  ring-offset-4 mb-3" />
+                                <p class="text-sm font-medium text-gray-900">Eka Ardilah</p>
+                            </div>
+
+                            <blockquote class="text-lg italic text-gray-800 mb-6 px-2">
+                                "Terima kasih Homify. Waktu tunggu yang singkat dan hasilnya melebihi harapan, sangat
+                                direkomendasikan."
+                            </blockquote>
+
+                            <div class="pt-4 border-t border-amber-200 w-full">
+                                <p class="text-lg font-semibold text-gray-900">Eka Ardilah</p>
+                                <p class="text-sm text-amber-700">Ckient</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="min-w-[320px] flex-shrink-0 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 p-8 shadow-lg transition duration-300 hover:shadow-xl bg-neutral text-neutral-content dark:bg-dark-neutral dark:text-dark-neutral-content">
+                        <div class="flex flex-col items-center text-center">
+                            <div class="mb-6 flex flex-col items-center">
+                                <img class="h-16 w-16 rounded-full object-cover ring-2 ring-blue-600 ring-offset-4 mb-3" />
+                                <p class="text-sm font-medium text-gray-900">Hazar Hamzah</p>
+                            </div>
+                            <blockquote class="text-lg italic text-gray-800 mb-6 px-2">
+                                "Pilihan yang tepat. Kualitas produknya sesuai ekspektasi, menciptakan suasana rumah
+                                yang saya impikan."
+                            </blockquote>
+                            <div class="pt-4 border-t border-blue-200 w-full">
+                                <p class="text-lg font-semibold text-gray-900">Hazar Hamzah</p>
+                                <p class="text-sm text-blue-700">Client</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="min-w-[320px] flex-shrink-0 rounded-xl bg-gradient-to-br bg-neutral text-neutral-content dark:bg-dark-neutral dark:text-dark-neutral-content p-8 shadow-lg transition duration-300 hover:shadow-xl">
+                        <div class="flex flex-col items-center text-center">
+                            <div class="mb-6 flex flex-col items-center">
+                                <img class="h-16 w-16 rounded-full object-cover ring-2 ring-green-600 ring-offset-4 mb-3" />
+                                <p class="text-sm font-medium text-gray-900">Khoerunnisa</p>
+                            </div>
+                            <blockquote class="text-lg italic text-gray-800 mb-6 px-2">
+                                "Pilihan yang tepat. Kualitas produknya sesuai ekspektasi, menciptakan suasana rumah
+                                yang saya impikan."
+                            </blockquote>
+                            <div class="pt-4 border-t border-green-200 w-full">
+                                <p class="text-lg font-semibold text-gray-900">Khoerunnisa</p>
+                                <p class="text-sm text-green-700">Home Decor Enthusiast</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="min-w-[320px] flex-shrink-0 rounded-xl bg-gradient-to-br bg-neutral text-neutral-content dark:bg-dark-neutral dark:text-dark-neutral-content p-8 shadow-lg transition duration-300 hover:shadow-xl">
+                        <div class="flex flex-col items-center text-center">
+                            <div class="mb-6 flex flex-col items-center">
+                                <img class="h-16 w-16 rounded-full object-cover ring-2 ring-green-600 ring-offset-4 mb-3" />
+                                <p class="text-sm font-medium text-gray-900">Khoerunnisa</p>
+                            </div>
+                            <blockquote class="text-lg italic text-gray-800 mb-6 px-2">
+                                "Pilihan yang tepat. Kualitas produknya sesuai ekspektasi, menciptakan suasana rumah
+                                yang saya impikan."
+                            </blockquote>
+                            <div class="pt-4 border-t border-green-200 w-full">
+                                <p class="text-lg font-semibold text-gray-900">Khoerunnisa</p>
+                                <p class="text-sm text-green-700">Home Decor Enthusiast</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
 
-        <section class="px-6 md:px-12 py-16 md:py-24 max-w-7xl mx-auto">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-accent mb-4">
-                    Peserta Konsultasi Proyek
+        <style>
+            /* For Webkit browsers (Chrome, Safari, etc.) */
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+
+            /* For IE, Edge and Firefox */
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                /* IE and Edge */
+                scrollbar-width: none;
+                /* Firefox */
+            }
+        </style>
+
+        <!-- FAQ -->
+
+        <div class="max-w-3xl mx-auto py-12">
+            <div class="text-center mb-12 md:mb-16">
+                <h2 class="text-3xl md:text-3xl font-bold text-[#4a4a4a] tracking-tight">
+                    Pertanyaan yang Sering Diajukan
                 </h2>
-                <div class="w-20 h-1 bg-primary mb-6 mx-auto"></div>
-                <p class="text-gray-600 leading-relaxed text-lg">
-                    Fondasi dari setiap aplikasi hebat adalah arsitektur data yang matang. Kami bangga mempersembahkan
-                    para
-                    mahasiswi bertalenta yang telah mendedikasikan analisis dan keterampilan mereka untuk merancang
-                    <i>Entity-Relationship Diagram</i> (ERD) sebagai langkah awal fundamental dalam <i>final project</i>
-                    mereka.
+                <p class="mt-4 text-xl text-gray-500 max-w-3xl mx-auto">
+                    Temukan jawaban cepat untuk pertanyaan paling umum Anda tentang layanan desain dan produk kami.
                 </p>
             </div>
+            <div class="space-y-6">
 
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-
-                <div
-                    class="border border-gray-200 p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out">
-                    <h3 class="font-bold text-xl mb-3">Ais</h3>
-                    <a href="https://dbdiagram.io/d/68f9c61e357668b732373fa1" target="_blank" rel="noopener noreferrer"
-                        class="inline-block bg-primary text-white text-sm font-semibold py-2 px-5 uppercase tracking-wider hover:bg-accent transition-colors duration-300">
-                        Lihat ERD
-                    </a>
+                <!-- Item 1 -->
+                <div class=" border-gray-200 rounded-xl overflow-hidden shadow-lg bg-white">
+                    <button class="w-full flex items-center justify-between p-4 mx-auto" onclick="toggleItem(1)">
+                        <span class="text-lg font-semibold">
+                            keren bgt kak
+                        </span>
+                        <svg id="icon-plus-1" class="w-6 h-6 text-gray-600" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path
+                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" />
+                        </svg>
+                        <svg id="icon-minus-1" class="w-6 h-6 text-gray-600 hidden" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" />
+                        </svg>
+                    </button>
+                    <div id="content-1" class="p-4 text-gray-700 hidden">
+                        <p>sip</p>
+                    </div>
                 </div>
 
-                <div
-                    class="border border-gray-200 p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out">
-                    <h3 class="font-bold text-xl mb-3">Amalia</h3>
-                    <a href="https://dbdiagram.io/d/Copy-of-ERD-68df950ad2b621e4221cecff" target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-block bg-primary text-white text-sm font-semibold py-2 px-5 uppercase tracking-wider hover:bg-accent transition-colors duration-300">
-                        Lihat ERD
-                    </a>
+                <!-- Item 2 -->
+                <div class="border border-gray-200 rounded-xl overflow-hidden shadow-lg bg-white">
+                    <button class="w-full flex items-center justify-between p-4" onclick="toggleItem(2)">
+                        <span class="text-lg font-semibold">pusink</span>
+                        <svg id="icon-plus-2" class="w-6 h-6 text-gray-600" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path
+                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" />
+                        </svg>
+                        <svg id="icon-minus-2" class="w-6 h-6 text-gray-600 hidden" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" />
+                        </svg>
+                    </button>
+                    <div id="content-2" class="p-4 text-gray-700 hidden">
+                        <p>sama</p>
+                    </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="border border-gray-200 rounded-xl overflow-hidden shadow-lg bg-white">
+                    <button class="w-full flex items-center justify-between p-4" onclick="toggleItem(2)">
+                        <span class="text-lg font-semibold">pusink</span>
+                        <svg id="icon-plus-2" class="w-6 h-6 text-gray-600" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path
+                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" />
+                        </svg>
+                        <svg id="icon-minus-2" class="w-6 h-6 text-gray-600 hidden" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" />
+                        </svg>
+                    </button>
+                    <div id="content-2" class="p-4 text-gray-700 hidden">
+                        <p>sama</p>
+                    </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="border border-gray-200 rounded-xl overflow-hidden shadow-lg bg-white">
+                    <button class="w-full flex items-center justify-between p-4" onclick="toggleItem(2)">
+                        <span class="text-lg font-semibold">pusink</span>
+                        <svg id="icon-plus-2" class="w-6 h-6 text-gray-600" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path
+                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" />
+                        </svg>
+                        <svg id="icon-minus-2" class="w-6 h-6 text-gray-600 hidden" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" />
+                        </svg>
+                    </button>
+                    <div id="content-2" class="p-4 text-gray-700 hidden">
+                        <p>sama</p>
+                    </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="border border-gray-200 rounded-xl overflow-hidden shadow-lg bg-white">
+                    <button class="w-full flex items-center justify-between p-4" onclick="toggleItem(2)">
+                        <span class="text-lg font-semibold">pusink</span>
+                        <svg id="icon-plus-2" class="w-6 h-6 text-gray-600" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path
+                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" />
+                        </svg>
+                        <svg id="icon-minus-2" class="w-6 h-6 text-gray-600 hidden" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" />
+                        </svg>
+                    </button>
+                    <div id="content-2" class="p-4 text-gray-700 hidden">
+                        <p>sama</p>
+                    </div>
                 </div>
 
-                <div
-                    class="border border-gray-200 p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out">
-                    <h3 class="font-bold text-xl mb-3">Anggun</h3>
-                    <a href="https://dbdiagram.io/d/68f9b15c357668b73234c4f6" target="_blank" rel="noopener noreferrer"
-                        class="inline-block bg-primary text-white text-sm font-semibold py-2 px-5 uppercase tracking-wider hover:bg-accent transition-colors duration-300">
-                        Lihat ERD
-                    </a>
-                </div>
-
-                <div
-                    class="border border-gray-200 p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out">
-                    <h3 class="font-bold text-xl mb-3">Arin</h3>
-                    <a href="https://dbdiagram.io/d/68f96da1357668b7322da2fa" target="_blank" rel="noopener noreferrer"
-                        class="inline-block bg-primary text-white text-sm font-semibold py-2 px-5 uppercase tracking-wider hover:bg-accent transition-colors duration-300">
-                        Lihat ERD
-                    </a>
-                </div>
-
-                <div
-                    class="border border-gray-200 p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out">
-                    <h3 class="font-bold text-xl mb-3">Asyaa</h3>
-                    <a href="https://dbdiagram.io/d/68f91ddb357668b73224a61c" target="_blank" rel="noopener noreferrer"
-                        class="inline-block bg-primary text-white text-sm font-semibold py-2 px-5 uppercase tracking-wider hover:bg-accent transition-colors duration-300">
-                        Lihat ERD
-                    </a>
-                </div>
-
-                <div
-                    class="border border-gray-200 p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out">
-                    <h3 class="font-bold text-xl mb-3">Ayu Aisya</h3>
-                    <a href="https://dbdiagram.io/d/68f9bd6e357668b732362c45" target="_blank" rel="noopener noreferrer"
-                        class="inline-block bg-primary text-white text-sm font-semibold py-2 px-5 uppercase tracking-wider hover:bg-accent transition-colors duration-300">
-                        Lihat ERD
-                    </a>
-                </div>
-
-                <div
-                    class="border border-gray-200 p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out">
-                    <h3 class="font-bold text-xl mb-3">Kanya</h3>
-                    <a href="https://dbdiagram.io/d/cafexploOore-68fb5caa357668b732749d2f" target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-block bg-primary text-white text-sm font-semibold py-2 px-5 uppercase tracking-wider hover:bg-accent transition-colors duration-300">
-                        Lihat ERD
-                    </a>
-                </div>
-
-                <div
-                    class="border border-gray-200 p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out">
-                    <h3 class="font-bold text-xl mb-3">Nabila</h3>
-                    <a href="https://dbdiagram.io/d/68f4ccc92e68d21b412cba10" target="_blank" rel="noopener noreferrer"
-                        class="inline-block bg-primary text-white text-sm font-semibold py-2 px-5 uppercase tracking-wider hover:bg-accent transition-colors duration-300">
-                        Lihat ERD
-                    </a>
-                </div>
-
-                <div
-                    class="border border-gray-200 p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out">
-                    <h3 class="font-bold text-xl mb-3">Najla</h3>
-                    <a href="https://dbdiagram.io/d/ERD-MANAJEMEN-KOSAN-68f9dff5357668b7323c00ae" target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-block bg-primary text-white text-sm font-semibold py-2 px-5 uppercase tracking-wider hover:bg-accent transition-colors duration-300">
-                        Lihat ERD
-                    </a>
-                </div>
-
-                <div
-                    class="border border-gray-200 p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out">
-                    <h3 class="font-bold text-xl mb-3">Putri</h3>
-                    <a href="https://dbdiagram.io/d/68f65ea92e68d21b415c5669" target="_blank" rel="noopener noreferrer"
-                        class="inline-block bg-primary text-white text-sm font-semibold py-2 px-5 uppercase tracking-wider hover:bg-accent transition-colors duration-300">
-                        Lihat ERD
-                    </a>
-                </div>
-
-                <div
-                    class="border border-gray-200 p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out">
-                    <h3 class="font-bold text-xl mb-3">Ratu</h3>
-                    <a href="https://dbdiagram.io/d/68f985c9357668b7322fc6dc" target="_blank" rel="noopener noreferrer"
-                        class="inline-block bg-primary text-white text-sm font-semibold py-2 px-5 uppercase tracking-wider hover:bg-accent transition-colors duration-300">
-                        Lihat ERD
-                    </a>
-                </div>
-
-                <div
-                    class="border border-gray-200 p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out">
-                    <h3 class="font-bold text-xl mb-3">Risha Adzkia Putri</h3>
-                    <a href="https://dbdiagram.io/d/68f965a8357668b7322d08a9" target="_blank" rel="noopener noreferrer"
-                        class="inline-block bg-primary text-white text-sm font-semibold py-2 px-5 uppercase tracking-wider hover:bg-accent transition-colors duration-300">
-                        Lihat ERD
-                    </a>
-                </div>
-
-                <div
-                    class="border border-gray-200 p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out">
-                    <h3 class="font-bold text-xl mb-3">Rizka Azzah</h3>
-                    <a href="https://dbdiagram.io/d/68f95e5e357668b7322c8d02" target="_blank" rel="noopener noreferrer"
-                        class="inline-block bg-primary text-white text-sm font-semibold py-2 px-5 uppercase tracking-wider hover:bg-accent transition-colors duration-300">
-                        Lihat ERD
-                    </a>
-                </div>
-
-                <div
-                    class="border border-gray-200 p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out">
-                    <h3 class="font-bold text-xl mb-3">Sausan</h3>
-                    <a href="https://dbdiagram.io/d/68f8f167357668b7321da62d" target="_blank" rel="noopener noreferrer"
-                        class="inline-block bg-primary text-white text-sm font-semibold py-2 px-5 uppercase tracking-wider hover:bg-accent transition-colors duration-300">
-                        Lihat ERD
-                    </a>
-                </div>
-
-                <div
-                    class="border border-gray-200 p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out">
-                    <h3 class="font-bold text-xl mb-3">Unaisah</h3>
-                    <a href="https://dbdiagram.io/d/68f9bea6357668b73236537f" target="_blank" rel="noopener noreferrer"
-                        class="inline-block bg-primary text-white text-sm font-semibold py-2 px-5 uppercase tracking-wider hover:bg-accent transition-colors duration-300">
-                        Lihat ERD
-                    </a>
-                </div>
-
-                <div
-                    class="border border-gray-200 p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out">
-                    <h3 class="font-bold text-xl mb-3">Windy</h3>
-                    <a href="httpsD/erd-web-reservasi-kelas-68f9c55b357668b7323724d2" target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-block bg-primary text-white text-sm font-semibold py-2 px-5 uppercase tracking-wider hover:bg-accent transition-colors duration-300">
-                        Lihat ERD
-                    </a>
-                </div>
-
-                <div
-                    class="border border-gray-200 p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out">
-                    <h3 class="font-bold text-xl mb-3">Zaahiroh</h3>
-                    <a href="httpsD/TeaTales-68f96fca357668b7322dc63c" target="_blank" rel="noopener noreferrer"
-                        class="inline-block bg-primary text-white text-sm font-semibold py-2 px-5 uppercase tracking-wider hover:bg-accent transition-colors duration-300">
-                        Lihat ERD
-                    </a>
-                </div>
-
+                <!-- Add more items as needed -->
             </div>
-        </section>
+        </div>
 
 
-        <footer class="border-t border-gray-200 mt-16">
-            <div class="max-w-7xl mx-auto px-6 md:px-12 py-8 text-center text-gray-500 text-sm">
-                &copy; 2025 Konsultasi Final Projek - Politeknik IDN.
+
+    </main>
+
+
+    <!-- ===== FOOTER ===== -->
+    <footer
+        class="bg-neutral text-neutral-content dark:bg-dark-neutral dark:text-dark-neutral-content py-16 lg:py-24">
+        <div class="container-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Kolom 1: Brand & About -->
+                <div class="space-y-4">
+                    <a href="#" class="text-3xl font-serif font-bold">
+                        Homespire
+                    </a>
+                    <p class="text-neutral-content/70 dark:text-dark-neutral-content/70">
+                        Homespire is your premium platform for home decor inspiration
+                    </p>
+                    <!-- Social Media Icons -->
+                    <div class="flex space-x-4 ">
+                        <a href=""></a><svg class="w-5 h-20" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 640 640">
+                            <path
+                                d="M320.3 205C256.8 204.8 205.2 256.2 205 319.7C204.8 383.2 256.2 434.8 319.7 435C383.2 435.2 434.8 383.8 435 320.3C435.2 256.8 383.8 205.2 320.3 205zM319.7 245.4C360.9 245.2 394.4 278.5 394.6 319.7C394.8 360.9 361.5 394.4 320.3 394.6C279.1 394.8 245.6 361.5 245.4 320.3C245.2 279.1 278.5 245.6 319.7 245.4zM413.1 200.3C413.1 185.5 425.1 173.5 439.9 173.5C454.7 173.5 466.7 185.5 466.7 200.3C466.7 215.1 454.7 227.1 439.9 227.1C425.1 227.1 413.1 215.1 413.1 200.3zM542.8 227.5C541.1 191.6 532.9 159.8 506.6 133.6C480.4 107.4 448.6 99.2 412.7 97.4C375.7 95.3 264.8 95.3 227.8 97.4C192 99.1 160.2 107.3 133.9 133.5C107.6 159.7 99.5 191.5 97.7 227.4C95.6 264.4 95.6 375.3 97.7 412.3C99.4 448.2 107.6 480 133.9 506.2C160.2 532.4 191.9 540.6 227.8 542.4C264.8 544.5 375.7 544.5 412.7 542.4C448.6 540.7 480.4 532.5 506.6 506.2C532.8 480 541 448.2 542.8 412.3C544.9 375.3 544.9 264.5 542.8 227.5zM495 452C487.2 471.6 472.1 486.7 452.4 494.6C422.9 506.3 352.9 503.6 320.3 503.6C287.7 503.6 217.6 506.2 188.2 494.6C168.6 486.8 153.5 471.7 145.6 452C133.9 422.5 136.6 352.5 136.6 319.9C136.6 287.3 134 217.2 145.6 187.8C153.4 168.2 168.5 153.1 188.2 145.2C217.7 133.5 287.7 136.2 320.3 136.2C352.9 136.2 423 133.6 452.4 145.2C472 153 487.1 168.1 495 187.8C506.7 217.3 504 287.3 504 319.9C504 352.5 506.7 422.6 495 452z" />
+                        </svg></a>
+                        <a href=""></a><svg class="w-5 h-20" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 640 640">
+                            <!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                            <path
+                                d="M544.5 273.9C500.5 274 457.5 260.3 421.7 234.7L421.7 413.4C421.7 446.5 411.6 478.8 392.7 506C373.8 533.2 347.1 554 316.1 565.6C285.1 577.2 251.3 579.1 219.2 570.9C187.1 562.7 158.3 545 136.5 520.1C114.7 495.2 101.2 464.1 97.5 431.2C93.8 398.3 100.4 365.1 116.1 336C131.8 306.9 156.1 283.3 185.7 268.3C215.3 253.3 248.6 247.8 281.4 252.3L281.4 342.2C266.4 337.5 250.3 337.6 235.4 342.6C220.5 347.6 207.5 357.2 198.4 369.9C189.3 382.6 184.4 398 184.5 413.8C184.6 429.6 189.7 444.8 199 457.5C208.3 470.2 221.4 479.6 236.4 484.4C251.4 489.2 267.5 489.2 282.4 484.3C297.3 479.4 310.4 469.9 319.6 457.2C328.8 444.5 333.8 429.1 333.8 413.4L333.8 64L421.8 64C421.7 71.4 422.4 78.9 423.7 86.2C426.8 102.5 433.1 118.1 442.4 131.9C451.7 145.7 463.7 157.5 477.6 166.5C497.5 179.6 520.8 186.6 544.6 186.6L544.6 274z" />
+                        </svg>
+                        <a href=""></a><svg class="w-5 h-20" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 640 640">
+                            <!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                            <path
+                                d="M581.7 188.1C575.5 164.4 556.9 145.8 533.4 139.5C490.9 128 320.1 128 320.1 128C320.1 128 149.3 128 106.7 139.5C83.2 145.8 64.7 164.4 58.4 188.1C47 231 47 320.4 47 320.4C47 320.4 47 409.8 58.4 452.7C64.7 476.3 83.2 494.2 106.7 500.5C149.3 512 320.1 512 320.1 512C320.1 512 490.9 512 533.5 500.5C557 494.2 575.5 476.3 581.8 452.7C593.2 409.8 593.2 320.4 593.2 320.4C593.2 320.4 593.2 231 581.8 188.1zM264.2 401.6L264.2 239.2L406.9 320.4L264.2 401.6z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Kolom 2: Quick Links -->
+                <div>
+                    <h4 class="text-lg font-serif font-medium mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#"
+                                class="hover:text-primary dark:hover:text-dark-primary text-neutral-content/80 dark:text-dark-neutral-content/80">Home</a>
+                        </li>
+                        <li><a href="#"
+                                class="hover:text-primary dark:hover:text-dark-primary text-neutral-content/80 dark:text-dark-neutral-content/80">Gallery</a>
+                        </li>
+                        <li><a href="#"
+                                class="hover:text-primary dark:hover:text-dark-primary text-neutral-content/80 dark:text-dark-neutral-content/80">FAQs</a>
+                        </li>
+                        <li><a href="#"
+                                class="hover:text-primary dark:hover:text-dark-primary text-neutral-content/80 dark:text-dark-neutral-content/80">Testimonials</a>
+                        </li>
+                        <li><a href="#"
+                                class="hover:text-primary dark:hover:text-dark-primary text-neutral-content/80 dark:text-dark-neutral-content/80">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Kolom 4: Contact Info -->
+                <div>
+                    <h4 class="text-lg font-serif font-medium mb-4">Contact Info</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                            </svg>
+                            <span class="text-neutral-content/80 dark:text-dark-neutral-content/80">Jl. Inspirasi No.
+                                1, Jakarta, Indonesia</span>
+                        </li>
+                        <li class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.65-1.5-4.853-3.703-6.353-6.354l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102A1.125 1.125 0 005.87 2.25H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                            </svg>
+                            <span class="text-neutral-content/80 dark:text-dark-neutral-content/80">(+62)
+                                21-123-4567</span>
+                        </li>
+                        <li class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91A2.25 2.25 0 012.25 6.993v-.243z" />
+                            </svg>
+                            <span
+                                class="text-neutral-content/80 dark:text-dark-neutral-content/80">info@homespire.com</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </footer>
 
+            <!-- Copyright Bar -->
+            <div
+                class="mt-12 pt-8 border-t border-neutral-content/20 dark:border-dark-neutral-content/20 text-center text-neutral-content/60 dark:text-dark-neutral-content/60">
+                <p>&copy; 2025 Homespire. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ===== MODAL DIALOG ===== -->
+    <!--
+    Komponen Modal, dikontrol oleh `isModalOpen`
+    - `x-show="isModalOpen"`: Menampilkan/menyembunyikan modal.
+    - `x-cloak`: Menyembunyikan sebelum Alpine siap.
+    - `x-transition`: Menambahkan transisi fade-in/out.
+    - `@keydown.escape.window="isModalOpen = false"`: Menutup modal saat tombol Esc ditekan.
+  -->
+    <div x-show="isModalOpen" @keydown.escape.window="isModalOpen = false" x-cloak class="relative z-40">
+
+        <!-- Backdrop (Overlay) -->
+        <div x-show="isModalOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200"
+            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="modal-backdrop"
+            @click="isModalOpen = false"></div> <!-- Menutup modal saat backdrop diklik -->
+
+        <!-- Konten Modal Box -->
+        <div class="fixed inset-0 z-50 overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center">
+                <div x-show="isModalOpen" x-transition:enter="ease-out duration-300"
+                    x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                    x-transition:leave="ease-in duration-200"
+                    x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                    x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    class="modal-box relative text-left" @click.outside="isModalOpen = false">
+                    <!-- Menutup modal saat klik di luar box (alternatif @click.away) -->
+
+                    <!-- Tombol Close di dalam Modal -->
+                    <button @click="isModalOpen = false" class="absolute top-4 right-4 btn btn-ghost btn-circle">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+
+                    <!-- Isi Modal -->
+                    <h3 class="text-2xl font-serif font-medium" id="modal-title">
+                        Login to Your Account
+                    </h3>
+                    <div class="mt-4">
+                        <p class="text-base-content/80 dark:text-dark-base-content/80 mb-4">
+                            Access your wishlist, cart, and order history.
+                        </p>
+                        <form class="space-y-4" method="POST" action="{{ route('login') }}">
+                            @csrf
+                            <div>
+                                <label for="modal-email" class="block text-sm font-medium">Email</label>
+                                <input type="email" id="modal-email" name="email" placeholder="you@example.com"
+                                    class="mt-1">
+                            </div>
+                            <div>
+                                <label for="modal-password" class="block text-sm font-medium">Password</label>
+                                <input type="password" id="modal-password" name="password" placeholder="••••••••"
+                                    class="mt-1">
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <input id="modal-remember" name="remember" type="checkbox" class="h-4 w-4">
+                                    <label for="modal-remember" class="ml-2 block text-sm">Remember me</label>
+                                </div>
+                                @if (Route::has('password.request'))
+                                    <a href="{{ route('password.request') }}" wire:navigate
+                                        class="text-sm text-primary dark:text-dark-primary hover:underline">Forgot
+                                        password?</a>
+                                @endif
+                            </div>
+                            <button type="submit" class="btn btn-primary w-full">
+                                Login
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script>
+        function toggleItem(id) {
+            const content = document.getElementById(`content-${id}`);
+            const iconPlus = document.getElementById(`icon-plus-${id}`);
+            const iconMinus = document.getElementById(`icon-minus-${id}`);
+            content.classList.toggle('hidden');
+            iconPlus.classList.toggle('hidden');
+            iconMinus.classList.toggle('hidden');
+        }
+    </script>
 
 </body>
 
